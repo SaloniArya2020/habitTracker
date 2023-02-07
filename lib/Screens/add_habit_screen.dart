@@ -59,14 +59,21 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
         .doc(currentUser!.uid)
         .collection('habit')
         .doc(habitId)
-        .delete()
-        .whenComplete(() async {
-          /// decreaseing
-      await FirebaseFirestore.instance
-          .collection('habits')
-          .doc(currentUser!.uid)
-          .set({"count": FieldValue.increment(-1)}, SetOptions(merge: true));
+        .delete();
 
+    /// decreasing count form habits collection
+    await FirebaseFirestore.instance
+        .collection('habits')
+        .doc(currentUser!.uid)
+        .set({"count": FieldValue.increment(-1)}, SetOptions(merge: true));
+
+    /// getting habit from habitOnDate collection
+    DocumentSnapshot _doc= await FirebaseFirestore.instance.collection('habitOnDate').doc(currentUser!.uid).collection('habitDate')
+    .doc(DateFormat.yMMMd().format(DateTime.now())).collection('habits').doc(habitId).get();
+
+    /// checking if doc exists
+    if(_doc.exists){
+      /// deleting habits from habitOnDate
       await FirebaseFirestore.instance
           .collection('habitOnDate')
           .doc(currentUser!.uid)
@@ -74,16 +81,17 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
           .doc(DateFormat.yMMMd().format(DateTime.now()))
           .collection('habits')
           .doc(habitId)
-          .delete()
-          .whenComplete(() {
-        FirebaseFirestore.instance
-            .collection('habitOnDate')
-            .doc(currentUser!.uid)
-            .collection('habitDate')
-            .doc(DateFormat.yMMMd().format(DateTime.now()))
-            .set({"count": FieldValue.increment(-1)}, SetOptions(merge: true));
-      });
-    });
+          .delete();
+
+      /// decreasing count from habit on date
+      await FirebaseFirestore.instance
+          .collection('habitOnDate')
+          .doc(currentUser!.uid)
+          .collection('habitDate')
+          .doc(DateFormat.yMMMd().format(DateTime.now()))
+          .set({"count": FieldValue.increment(-1)}, SetOptions(merge: true));
+    }
+
   }
 
   @override
@@ -104,7 +112,8 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
             ),
             TextFormField(
               controller: _controller,
-              validator: (val) => val!.trim().isEmpty ? 'Please fill input' : null,
+              validator: (val) =>
+                  val!.trim().isEmpty ? 'Please fill input' : null,
               decoration: InputDecoration(
                   hintText: '...',
                   border: OutlineInputBorder(
