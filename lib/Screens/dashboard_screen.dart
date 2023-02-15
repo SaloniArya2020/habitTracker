@@ -18,7 +18,6 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   String _username = '';
   String _tasks = '';
-  String _achievedTasks = '';
   double percent = 0;
 
   habitDate(bool isHabit, String habitId, String habitName) async {
