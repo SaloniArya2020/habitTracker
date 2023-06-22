@@ -97,7 +97,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
                         children: snapshot.data!.docs.map((doc){
                           return Container(
                             margin: EdgeInsets.only(bottom: 10),
-                            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                             width: double.infinity,
                             height: 50,
                             decoration: BoxDecoration(

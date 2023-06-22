@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:989513761877:android:04d63da6b94da5706680dc",
         "android_client_info": {
-          "package_name": "com.example.habit_tracker"
+          "package_name": "com.habit_tracker.habit_tracker"
         }
       },
       "oauth_client": [

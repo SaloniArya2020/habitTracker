@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/Screens/Authentication_Screens/login_screen.dart';
 import 'package:habit_tracker/UI_elements/color.dart';
 import 'Screens/home_screen.dart';
+import 'Services/notification_service.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async{
-
   WidgetsFlutterBinding.ensureInitialized();
+
+  Notifications().set();
+  Notifications().periodicShow();
+  tz.initializeTimeZones();
   await Firebase.initializeApp().whenComplete(() {
     print("Initialize on Android!");
   });
@@ -15,7 +20,7 @@ void main() async{
 
   FirebaseAuth.instance.authStateChanges().listen((user) {
 
-    print(FirebaseAuth.instance.currentUser);
+    // print(FirebaseAuth.instance.currentUser);
     if(user==null){
       print('userSignOut!');
     }else{

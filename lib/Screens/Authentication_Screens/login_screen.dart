@@ -67,6 +67,7 @@ class _LogInScreenState extends State<LogInScreen> {
         setState(() {
           isLoading= false;
         });
+
         final snackBar = SnackBar(
           content: Text(e.message.toString()),
           backgroundColor: primaryColor,

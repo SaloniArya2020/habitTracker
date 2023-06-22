@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:habit_tracker/Screens/calendar_screen.dart';
 import 'package:habit_tracker/UI_elements/color.dart';
 import 'package:habit_tracker/UI_elements/text_styles.dart';
 import 'package:intl/intl.dart';
+
+import '../Services/notification_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -101,7 +104,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 (habitDoneDoc['count'] / habitsDoc['count']).toStringAsFixed(2))
             : 0;
       });
-      print(percent.toStringAsFixed(2));
+      // print(percent.toStringAsFixed(2));
     } catch (e) {
       print(e.toString());
     }
@@ -109,9 +112,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
+    get();
     // TODO: implement initState
     super.initState();
-    get();
+
   }
 
   @override
@@ -144,23 +148,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
             ),
+
             SizedBox(
               height: 10,
             ),
 
-            /// calendar button
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(10),
+                ///  Today date
+                GestureDetector(
+                  onTap: (){
+                    Notifications().show('hello', 'world');
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(DateFormat.yMMMd().format(DateTime.now()), style: TextStyle(color: Colors.white),),
                   ),
-                  child: Text(DateFormat.yMMMd().format(DateTime.now()), style: TextStyle(color: Colors.white),),
                 ),
 
+                /// calendar button
                 Container(
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
